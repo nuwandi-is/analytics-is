@@ -218,11 +218,17 @@ function onDataChanged() {
         idpType:idpTypeFilter
     }, onData, onError);
 
+    var userPref;
+    if (listnedAdditionalUserPrefs != "" && listnedAdditionalUserPrefs.indexOf("region") => 0) {
+        userPref = "";
+    } else {
+        userPref = listnedAdditionalUserPrefs;
+    }
     gadgetUtil.fetchData(AUTHENTICATION_CONTEXT, {
         type: 25,
         timeFrom: listnedTimeFromValue,
         timeTo: listnedTimeToValue,
-        listnedAdditionalUserPrefs: listnedAdditionalUserPrefs,
+        listnedAdditionalUserPrefs: userPref,
         idpType:idpTypeFilter,
         start:0,
         count:10
@@ -362,6 +368,8 @@ function loadMap(data) {
                 gadgetUtil.updateURLParam(map.mode, region + "_" +map.colorCode);
 
                 gadgets.Hub.publish(TOPIC_REGION, message);
+
+                onDataChanged();
             }           
         }
     }
